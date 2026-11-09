@@ -66,5 +66,23 @@ Resource-Conscious Execution: Uses controlled sequential loops to avoid excessiv
 Structured Workspace: Segregates output data into dedicated folders (1_environment, 2_stack, 3_access) for systematic analysis.
 Modular Integration: Designed to pipe outputs directly into downstream testing tools such as ffuf, nuclei, or Burp Suite.
 
+
+
+## Reconnaissance Pipeline Architecture
+
+
+```mermaid
+flowchart TD
+    Start([Target Domain]) --> Subfinder[Subdomain Discovery: subfinder]
+    Subfinder --> SubList[Raw Subdomains List]
+    SubList --> Httpx[Service & Status Verification: httpx]
+    Httpx --> ActiveHosts[Active Web Assets]
+    
+    Start --> Archive[Historical Endpoint Harvesting: waybackurls / gau]
+    Archive --> UniqueUrls[Unique Endpoints & Parameters]
+    
+    ActiveHosts --> Downstream[Downstream Vulnerability Testing: ffuf / nuclei]
+    UniqueUrls --> Downstream
+```
 ## Legal Disclaimer
 These scripts are developed solely for educational purposes, authorized penetration testing, and legal bug bounty research. Unauthorized scanning without explicit permission is strictly prohibited.
